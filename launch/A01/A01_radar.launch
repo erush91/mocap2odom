@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<launch>
+
+<!-- FCU communication -->
+  <node name="rosflight_io" pkg="rosflight" type="rosflight_io">
+    <param name="udp" value="false"/>
+  </node>
+
+  <node pkg="timed_roslaunch" type="timed_roslaunch.sh" name="timed_roslaunch_rosflight" args="2 rosflight A01_load_params.launch" output="screen"/>
+
+  <node pkg="rosservice" type="rosservice" name="cal_imu" args="call calibrate_imu" output="screen"/>
+
+  <node pkg="rosservice" type="rosservice" name="cal_baro" args="call calibrate_baro" output="screen"/>
+  <include file="$(find radar_rig)/launch/icra_2020_radar-quad.launch"/>
+
+<include file="$(find vrpn_client_ros)/launch/aero_vicon.launch"/>
+</launch>

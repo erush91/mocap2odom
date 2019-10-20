@@ -1,0 +1,10 @@
+<launch>
+	<node pkg="rosbag" type="record" name="record" output="screen" args = 
+	"record -O /tmp/bagfile 
+	    /odom/optitrack_NED 
+            /odom/attitude_euler 
+            /compass_pose
+            /imu_raw
+            /camera/infra1/image_rect_raw
+            /camera/infra2/image_rect_raw" /> 
+</launch>

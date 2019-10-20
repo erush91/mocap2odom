@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- Start the VRPN client -->	
+<!--
+     <include file="/opt/ros/melodic/share/vrpn_client_ros/launch/vrpn_fleming.launch" />
+-->
+     <node pkg="rosflight" type="vins2odom" name="vins2odom" />
+  <!-- Start rosflight and load parameters -->
+  <include file="/home/ohrad/catkin_ws/src/rosflight/rosflight/launch/A02/A02_rf.launch" /> 
+
+  <!-- Start the z_state_estimator and rangefinder -->
+  <include file="/home/ohrad/catkin_ws/src/z_state_estimator/launch/estimator.launch" />
+
+  <!-- Launch VINS-Mono -->
+  <include file="/home/ohrad/catkin_ws/src/VINS-Mono/vins_estimator/launch/aerial_vehicle_vins.launch" />
+
+
+   <node pkg="roscopter" name="high_level_command_pub" type="subt_vins_traj_manager.py" output="screen" />
+
+  <!-- Launch Octomap -->
+  <include file="/home/ohrad/catkin_ws/src/octomap_mapping/octomap_server/launch/vins_octomap.launch" />
+
+  <!-- Launch Btraj -->
+  <include file="/home/ohrad/catkin_ws/src/Btraj/launch/subt_vins_planner.launch" />
+
+  <include file="/home/ohrad/catkin_ws/src/rosflight/rosflight/launch/A02/A02_topic_rename_wifi.launch" />
+
+</launch>

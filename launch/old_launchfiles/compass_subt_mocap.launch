@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <include file="/opt/ros/melodic/share/vrpn_client_ros/launch/vrpn_fleming.launch" />
+
+  <!-- FCU communication -->
+    <node name="rosflight_io" pkg="rosflight" type="rosflight_io" output="screen">
+    <param name="udp" value="false"/>
+  </node>
+
+  <!-- Load common parameters -->
+  <!-- <rosparam command="load" file="$(find roscopter)/params/F450_subt.yaml"/> -->
+  <rosparam command="load" file="$(find roscopter)/params/x_trans.yaml"/>
+  <include file="/home/ohrad/catkin_ws/src/roscopter/launch/load_params.launch" />
+  <!-- PID Position Controller -->
+  <!--<node name="controller" pkg="roscopter" type="controller">
+    <remap from="estimate" to="odom"/>
+  </node>
+-->
+  <node name="vrpn2odom" pkg="rosflight" type="vrpn2odom" />
+
+  <!-- High Level Command Publisher -->
+  <node name="high_level_cmd_pub" pkg="roscopter" type="btraj_wp_manager.py" output="screen" />
+
+  <include file="/home/ohrad/compass_ws/src/compass_node/launch/compass_node.launch"/>
+
+
+  <!-- Estimator -->
+  <!-- <rosparam command="load" file="$(find roscopter)/params/ekf_gains.yaml" ns="estimator"/>
+  <rosparam command="load" file="$(find roscopter)/params/ekf_drone.yaml" ns="estimator"/>
+  <node name="estimator" type="ekf_node" pkg="roscopter" output="screen">
+    <remap from="imu" to="/imu/data"/>
+    <remap from="truth/pose" to="/vrpn_client_node/oflow/pose"/>
+    <remap from="truth/transform" to="/tf"/>
+  </node>
+  -->
+  <!-- Waypoint Manager -->
+  <!--  <node name="waypoint_manager" pkg="roscopter" type="waypoint_manager.py" output="screen">
+    <remap from="waypoint" to="high_level_command"/>
+    <remap from="state" to="odom"/>
+  </node>
+-->
+</launch>

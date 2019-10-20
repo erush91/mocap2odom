@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- Start the battery monitor -->
+  <node pkg="rosserial_python" name="bat_monitor_link" type="serial_node.py" args="/dev/bat_monitor" />
+
+  <!-- Start the VRPN client -->	
+  <!--  <include file="/opt/ros/melodic/share/vrpn_client_ros/launch/vrpn_fleming.launch" />
+-->
+  <node pkg="rosflight" type="vins2odom" name="vins2odom" />
+
+  <!-- Start rosflight and load parameters -->
+  <include file="/home/ohrad/catkin_ws/src/rosflight/rosflight/launch/A01/A01_rf.launch" /> 
+
+  <!-- Start the z_state_estimator and rangefinder -->
+  <include file="/home/ohrad/catkin_ws/src/z_state_estimator/launch/estimator.launch" />
+
+  <!-- Launch VINS-Mono -->
+  <include file="/home/ohrad/catkin_ws/src/VINS-Mono/vins_estimator/launch/aerial_vehicle_vins.launch" />
+
+    <node pkg="roscopter" name="high_level_command_pub" type="subt_vins_traj_manager.py" output="screen" />
+<!-- Launch Octomap -->
+ 
+   <include file="/home/ohrad/catkin_ws/src/octomap_mapping/octomap_server/launch/vins_octomap.launch" />
+  
+  <!-- Launch Btraj -->
+  <!--<include file="/home/ohrad/catkin_ws/src/Btraj/launch/subt_vins_planner.launch" />
+-->
+  <!-- Launch multimaster -->
+  <!--   <include file="/home/ohrad/catkin_ws/src/multimaster_fkie/master_discovery_fkie/launch/run_multimaster_new.launch" /> -->
+  <!--Launch frontier finding -->
+  
+  <include file="/home/ohrad/catkin_ws/src/marble-frontier/FastMarching3D_ROS/launch/A01_msfm3d.launch" /> 
+
+
+<!--
+  <include file="/home/ohrad/catkin_ws/src/darknet_ros/darknet_ros/launch/subT_yolo_v3-tiny.launch" />
+  -->
+
+</launch>

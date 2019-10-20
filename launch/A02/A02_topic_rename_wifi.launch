@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <node pkg="topic_tools" type="throttle" name="throttle_odom_wifi" args="messages /vins_odom 1 /A02/odometry"/>
+
+  <node pkg="topic_tools" type="throttle" name="throttle_octomap_wifi" args="messages /octomap_final_output 1 /A02/octomap_point_cloud_occupied"/>
+
+  <!-- Add battery message -->
+
+  <!-- Add artifact message -->
+
+  <!-- Add goal point message -->
+
+</launch>
+

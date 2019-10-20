@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<launch>
+	
+  <!-- Start VRPN -->
+  <include file="/opt/ros/melodic/share/vrpn_client_ros/launch/optitrack.launch" />
+
+  <!-- Launch ROSFlight and startup services -->
+  <!--  <include file="/home/ohrad/catkin_ws/src/rosflight/rosflight/launch/rf.launch" />
+-->
+  <!-- Create an odometry topic from the vrpn data -->
+  <node name="vrpn_velocity" pkg="vrpn_velocity" type="vrpn_vel_calc.py" />
+  <node name="optitrack2odom" pkg="rosflight" type="optitrack2odom" />
+
+  <!-- Launch compass sensors -->
+  <include file="/home/ohrad/compass_ws/src/compass_node/launch/compass_sensors.launch"/>
+
+</launch>

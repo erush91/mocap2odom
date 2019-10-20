@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- Launch battery monitor -->
+  <node pkg="rosserial_python" name="bat_monitor_link" type="serial_node.py" args="/dev/bat_monitor" />
+
+  <include file="$(find cartographer_ros)/launch/launch_urban_3d.launch" />
+
+  <!-- Launch rosflight and load parameters -->
+  <include file="/home/ohrad/catkin_ws/src/rosflight/rosflight/launch/urban/urban_rosflight.launch" />
+
+  <!-- Launch z_state_estimator and rangefinder -->
+  <include file="/home/ohrad/catkin_ws/src/z_state_estimator/launch/estimator.launch" />
+
+    <!-- Start the VRPN client -->
+    <include file="/opt/ros/melodic/share/vrpn_client_ros/launch/vrpn_aero.launch" />
+
+</launch>
