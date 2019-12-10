@@ -11,7 +11,6 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   eigen_stl_containers
   geometry_msgs
-  rosflight_msgs
   sensor_msgs
   std_msgs
   std_srvs
@@ -23,22 +22,13 @@ find_package(Eigen3 REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(YAML_CPP REQUIRED yaml-cpp)
 
-## Look for and clone MAVLINK if it is missing
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/include/rosflight/mavlink/v1.0/.git")
-  message(STATUS "MAVLink submodule not found at ${CMAKE_CURRENT_SOURCE_DIR}/include/rosflight/mavlink/v1.0")
-  execute_process(
-    COMMAND git submodule update --init --recursive
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  )
-endif()
-
 ###################################
 ## catkin specific configuration ##
 ###################################
 
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS roscpp geometry_msgs rosflight_msgs sensor_msgs std_msgs tf
+  CATKIN_DEPENDS roscpp geometry_msgs sensor_msgs std_msgs tf
   DEPENDS Boost EIGEN3 YAML_CPP tf
 )
 
@@ -71,6 +61,15 @@ add_dependencies(OptiTrack2odom ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXP
 
 target_link_libraries(OptiTrack2odom
 	${catkin_LIBRARIES}
+)
+# odom message to transform
+add_executable(odom2transform
+    src/odom2transform.cpp
+)
+add_dependencies(odom2transform ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+target_link_libraries(odom2transform
+        ${catkin_LIBRARIES}
 )
 #############
 ## Install ##
